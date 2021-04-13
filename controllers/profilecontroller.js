@@ -17,15 +17,19 @@ router.get("/cloudsign", validateSession, async (req, res) => {
   try {
     const ts = Math.floor(new Date().getTime() / 1000).toString();
     const sig = cloudinary.utils.api_sign_request(
-      { timestamp: ts, upload_preset: "datePerfect" },
+      { timestamp: ts, upload_preset: "dateperfect" },
       process.env.CLOUDINARY_SECRET
     );
     res.status(200).json({
       sig,
       ts,
+      status: 200,
+      message: "Image sign success!"
     });
   } catch (err) {
     res.status(500).json({
+      status: 500,
+      data: {},
       message: "failed to sign",
     });
   }
